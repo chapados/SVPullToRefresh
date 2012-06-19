@@ -256,22 +256,20 @@ typedef NSUInteger SVPullToRefreshState;
 
 - (void)startObservingScrollView
 {
-    if ( self.observingScrollView )
-        return;
-    
-    [self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-    [self.scrollView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
-    self.observingScrollView = YES;
+    if ( !self.observingScrollView ) {    
+        [self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+        [self.scrollView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
+        self.observingScrollView = YES;
+    }
 }
 
 - (void)stopObservingScrollView
 {
-    if ( self.observingScrollView )
-        return;
-    
-    [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
-    [self.scrollView removeObserver:self forKeyPath:@"frame"];
-    self.observingScrollView = NO;
+    if ( self.observingScrollView ) {
+        [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
+        [self.scrollView removeObserver:self forKeyPath:@"frame"];
+        self.observingScrollView = NO;
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
