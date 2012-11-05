@@ -208,12 +208,13 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 }
 
 - (void)setScrollViewContentInset:(UIEdgeInsets)contentInset {
+	__weak SVPullToRefresh *pullToRefresh = self;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.scrollView.contentInset = contentInset;
+        pullToRefresh.scrollView.contentInset = contentInset;
     } completion:^(BOOL finished) {
-        if(self.state == SVPullToRefreshStateHidden && contentInset.top == self.originalScrollViewContentInset.top)
+        if(pullToRefresh.state == SVPullToRefreshStateHidden && contentInset.top == pullToRefresh.originalScrollViewContentInset.top)
             [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                arrow.alpha = 0;
+                pullToRefresh.arrow.alpha = 0;
             } completion:NULL];
     }];
 }
@@ -374,9 +375,10 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
 }
 
 - (void)rotateArrow:(float)degrees hide:(BOOL)hide {
+	__weak SVPullToRefresh *pullToRefresh = self;
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        self.arrow.layer.transform = CATransform3DMakeRotation(degrees, 0, 0, 1);
-        self.arrow.layer.opacity = !hide;
+        pullToRefresh.arrow.layer.transform = CATransform3DMakeRotation(degrees, 0, 0, 1);
+        pullToRefresh.arrow.layer.opacity = !hide;
         //[self.arrow setNeedsDisplay];//ios 4
     } completion:NULL];
 }
