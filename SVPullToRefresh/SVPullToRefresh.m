@@ -268,7 +268,9 @@ static CGFloat const SVPullToRefreshViewHeight = 60;
         if (self.state == SVPullToRefreshStateLoading) {
             CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0);
             offset = MIN(offset, self.originalScrollViewContentInset.top + SVPullToRefreshViewHeight);
-            self.scrollView.contentInset = UIEdgeInsetsMake(offset, 0.0f, 0.0f, 0.0f);
+            UIEdgeInsets newInsets = self.scrollView.contentInset;
+            newInsets.top = offset;
+            self.scrollView.contentInset = newInsets;
         } else {
             CGFloat scrollOffsetThreshold = self.frame.origin.y-self.originalScrollViewContentInset.top;
             
